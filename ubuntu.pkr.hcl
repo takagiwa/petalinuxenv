@@ -23,6 +23,10 @@ variable "preseed" {
     default = ""
 }
 
+variable "boot_command" {
+    default = "autoinstall ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/"
+}
+
 # refer to https://github.com/boxcutter/ubuntu/blob/master/ubuntu.json
 
 variable "boot_command_prefix" {
@@ -148,26 +152,26 @@ variable "vmware_guest_os_type" {
 
 source "virtualbox-iso" "ubuntu" {
 
-    #boot_command = [
-    #    "${var.boot_command_prefix}",
-    #    " autoinstall ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
-    #    " ${var.preseed}",
-    #    " --- <wait>",
-    #    " <enter><wait>"
-    #]
-
     boot_command = [
-        "<enter><wait>",
-        "<esc><wait>",
-        "<enter><wait>",
-        "/install/vmlinuz<wait>",
-        " file=/cdrom/preseed/ubuntu-server.seed vga=788 initrd=/install/initrd.gz",
-        " auto-install/enable=true",
-        " debconf/priority=critical",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu18.04.1.cfg",
+        "${var.boot_command_prefix}",
+        "${var.boot_command}",
+        " ${var.preseed}",
         " --- <wait>",
-        "<enter><wait>"
+        " <enter><wait>"
     ]
+
+    #boot_command = [
+    #    "<enter><wait>",
+    #    "<esc><wait>",
+    #    "<enter><wait>",
+    #    "/install/vmlinuz<wait>",
+    #    " file=/cdrom/preseed/ubuntu-server.seed vga=788 initrd=/install/initrd.gz",
+    #    " auto-install/enable=true",
+    #    " debconf/priority=critical",
+    #    " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu18.04.1.cfg",
+    #    " --- <wait>",
+    #    "<enter><wait>"
+    #]
 
     boot_wait              = var.boot_wait
     cpus                   = var.cpus
