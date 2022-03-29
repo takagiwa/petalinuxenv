@@ -196,6 +196,20 @@ source "virtualbox-iso" "ubuntu" {
 }
 
 build {
-    sources = ["sources.virtualbox-iso.ubuntu"]
+    sources = [
+      "sources.virtualbox-iso.ubuntu"
+    ]
+    post-processors {  
+      post-processor "artifice" {
+        files = [
+          "build/packer-virtualbox/ubuntu18041-disk001.vmdk",
+          "build/packer-virtualbox/ubuntu18041.ovf"
+        ]
+      }
+      post-processor "vagrant" {
+        keep_input_artifact = true
+        provider_override   = "virtualbox"
+      }  
+    }
 }
 
