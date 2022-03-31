@@ -195,10 +195,17 @@ source "virtualbox-iso" "ubuntu" {
     ssh_handshake_attempts = "200"
 }
 
+
+
 build {
     sources = [
       "sources.virtualbox-iso.ubuntu"
     ]
+    provisioner "shell" {
+      # execute_command = "echo {{.ssh_password}} | sudo bash {{.Path}}"
+      execute_command = "bash {{.Path}}"
+      script = "scripts/setkey.sh"
+    }
     post-processors {  
       post-processor "artifice" {
         files = [
