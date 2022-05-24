@@ -46,6 +46,9 @@ variable "vm_name" {
 variable "scripts" {
     default = "scripts/setkey.sh"
 }
+variable "iso_url_dos" {
+    default = "http://releases.ubuntu.com/20.04/ubuntu-20.04.2-live-server-amd64.iso"
+}
 
 source "virtualbox-iso" "ubuntu" {
 
@@ -105,58 +108,20 @@ source "virtualbox-iso" "ubuntu" {
     ssh_handshake_attempts = "200"
 }
 
-
-
 build {
     sources = [
       "sources.virtualbox-iso.ubuntu"
     ]
-    #provisioner "file" {
-    #  source = "f:\\iso\\ubuntu-16.04.1-server-amd64.iso"
-    #  destination = "/home/vagrant/ubuntu.iso"
-    #}
+    provisioner "file" {
+      source = var.iso_url_dos
+      destination = "/home/${var.ssh_username}/ubuntu.iso"
+    }
     provisioner "shell" {
-      ### execute_command = "echo {{.ssh_password}} | sudo -S /bin/sh -c {{.Path}}"
-      #execute_command = "bash {{.Path}}"
-      ### script = "scripts/setkey.sh"
-      ##script = var.scripts
-      ### script = ["scripts/setkey.sh", "scripts/try.sh"]
-      ### inline = "echo {{.ssh_password}}"
-      #
-      ##script = "scripts/setkey.sh"
-      ##execute_command = "sudo -S env {{ .Vars }} {{ .Path }}"
-      ##inline_shebang = "/bin/bash -ex"
-      #
-      ##execute_command = "echo '{{.ssh_password}}'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
-      ##scripts = ["scripts/add2sudoer.sh", "scripts/ubuntu16.04.1.sh"]
-      #
-      #inline = [
-      #
-      #  # set sudoers
-      #  # "echo '{{.ssh_password}}' | sudo -E /bin/bash -c echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers",
-      #  #"ls -alF /etc/sudoers*", # exists
-      #  #"ls -alF /target/etc/sudoers*", # not exists
-      #  #"echo '{{.ssh_password}}' | sudo -E /bin/bash -c echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/ubuntu",
-      #
-      #  # header already installed
-      #  #"sudo apt install linux-headers-$(uname -r)",
-      #  #"echo '${var.ssh_password}'",
-      #  #"echo 'vagrant' | sudo -S apt install linux-headers-$(uname -r)",
-      #
-      #  # set key
-      #  "scripts/ubuntu16.04.1.sh"
-      #]
-
-      # sucseed
-      #execute_command = "bash {{.Path}}"
-      #script = var.scripts
-
       execute_command = "echo '${var.ssh_password}' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
       scripts = [
         "scripts/add2sudoer.sh",
         "scripts/setkey.sh"
       ]
-
     }
     post-processors {  
       post-processor "artifice" {
@@ -171,4 +136,3 @@ build {
       }  
     }
 }
-
