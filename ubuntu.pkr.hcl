@@ -150,6 +150,10 @@ variable "vmware_guest_os_type" {
     default = "ubuntu-64"
 }
 
+variable "scripts" {
+    default = "scripts/setkey.sh"
+}
+
 source "virtualbox-iso" "ubuntu" {
 
     boot_command = [
@@ -202,9 +206,12 @@ build {
       "sources.virtualbox-iso.ubuntu"
     ]
     provisioner "shell" {
-      # execute_command = "echo {{.ssh_password}} | sudo bash {{.Path}}"
+      # execute_command = "echo {{.ssh_password}} | sudo -S /bin/sh -c {{.Path}}"
       execute_command = "bash {{.Path}}"
-      script = "scripts/setkey.sh"
+      # script = "scripts/setkey.sh"
+      script = var.scripts
+      # script = ["scripts/setkey.sh", "scripts/try.sh"]
+      # inline = "echo {{.ssh_password}}"
     }
     post-processors {  
       post-processor "artifice" {
