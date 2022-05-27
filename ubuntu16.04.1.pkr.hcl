@@ -112,22 +112,27 @@ build {
     sources = [
       "sources.virtualbox-iso.ubuntu"
     ]
-    provisioner "file" {
-      source = var.iso_url_dos
-      destination = "/home/${var.ssh_username}/ubuntu.iso"
-    }
+    #provisioner "file" {
+    #  source = var.iso_url_dos
+    #  destination = "/home/${var.ssh_username}/ubuntu.iso"
+    #  source = [
+    #    var.xilinxconfig
+    #  ]
+    #  destination = "/home/${var.ssh_username}/"
+    #}
     provisioner "shell" {
       execute_command = "echo '${var.ssh_password}' | {{.Vars}} sudo -E -S bash '{{.Path}}'"
       scripts = [
         "scripts/add2sudoer.sh",
-        "scripts/setkey.sh"
+        "scripts/setkey.sh",
+        "scripts/vboxguest.sh"
       ]
     }
     post-processors {  
       post-processor "artifice" {
         files = [
-          "build/packer-virtualbox/ubuntu16041b-disk001.vmdk",
-          "build/packer-virtualbox/ubuntu16041b.ovf"
+          "build/packer-virtualbox/ubuntu16041-disk001.vmdk",
+          "build/packer-virtualbox/ubuntu16041.ovf"
         ]
       }
       post-processor "vagrant" {
@@ -136,3 +141,6 @@ build {
       }  
     }
 }
+
+# vagrant box add xenial1-test packer_ubuntu_virtualbox.box
+# vagrant box remove xenial1-test
