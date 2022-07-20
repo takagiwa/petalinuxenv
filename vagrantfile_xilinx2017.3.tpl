@@ -1,6 +1,9 @@
 $install_script = <<-'SCRIPT'
 # TODO: error check
 
+# TODO: directory settings for config.vm.synced_folder
+
+
 sudo mkdir /mnt/dvdiso
 echo '/mnt/iso/ubuntu-16.04.1-server-amd64.iso /mnt/dvdiso iso9660 loop,ro,auto,nofail 0 0' >> /etc/fstab
 sudo mount /mnt/dvdiso
@@ -10,10 +13,12 @@ sudo apt-cdrom -m -d /mnt/dvdiso add
 echo 'waiting for apt.systemd.daily'
 #wait `pgrep apt.systemd.dai`
 PID=`pgrep apt.systemd.dai`
-while [ -e /proc/$PID ]
-do
-  sleep 1
-done
+if [ -n "$PID" ]; then
+  while [ -e /proc/$PID ]
+  do
+    sleep 1
+  done
+fi
 echo 'install required packages (1)'
 sudo apt install -y python3 tofrodos iproute2 gawk xvfb gcc-4.8 git make net-tools libncurses5-dev tftpd zlib1g-dev:i386 libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib build-essential  libsdl1.2-dev libglib2.0-dev screen pax gzip
 
