@@ -29,16 +29,6 @@ ubuntu16.04.1.pkrvars.hcl
 
 Edit file path of **iso_url**.
 
-scripts/add2sudoer.sh and scripts/setkey.sh
-
-Replace **"vagrant"** if you want to change user name.
-
-scripts/vboxguest.sh
-
-Replace **"vagrant"** if you want to change user name.
-
-File name of VirtualBox Guest Addions need to be modifled like **"VBoxGuestAdditions_6.1.34.iso"** (verion number depends on your version).
-
 run Paker and make box file
 
 ```
