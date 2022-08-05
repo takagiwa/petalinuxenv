@@ -1,8 +1,13 @@
+# variables
+# xilinxconfigfile (xilinxconfig_2017.3_webpack.txt|xilinxconfig_2017.3_design.txt|xilinxconfig_2017.3_system.txt)
+# desktop environment (none|ubuntu-desktop|xubuntu-desktop)
+# v.cpus
+# v.memory
+# config.vm.synced_folder "F:\\XilinxInstaller"
+# config.vm.synced_folder "F:\\iso"
+
 $install_script = <<-'SCRIPT'
 # TODO: error check
-
-# TODO: directory settings for config.vm.synced_folder
-
 
 sudo mkdir /mnt/dvdiso
 echo '/mnt/iso/ubuntu-16.04.1-server-amd64.iso /mnt/dvdiso iso9660 loop,ro,auto,nofail 0 0' >> /etc/fstab
@@ -40,16 +45,6 @@ cd Xilinx_Vivado_SDK_2017.3_1005_1
 sudo ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --batch Install --config /mnt/xilinxinstaller/xilinxconfig_2017.3_webpack.txt
 cd ..
 rm -rf ./Xilinx_Vivado_SDK_2017.3_1005_1
-
-
-##wait `pgrep apt.systemd.dai`
-#PID=`pgrep apt.systemd.dai`
-#while [ -e /proc/$PID ]
-#do
-#  sleep 1
-#done
-echo 'install required packages (2)'
-sudo apt install -y diffstat xvfb chrpath socat xterm autoconf libtool unzip texinfo zlib1g-dev gcc-multilib libsdl1.2-dev libglib2.0-dev openssl zlib1g:i386 libncurses5-dev libssl-dev
 
 echo 'install Petalinux'
 mkdir -p /home/vagrant/petalinux/2017.3
