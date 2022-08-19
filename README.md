@@ -6,7 +6,12 @@ Packer scripts and Vagrant files to make Xilinx Vivado and Petalinux enviroment.
 
 Tested with Windows 10 Pro 64bit 21H2 19044.1706, VirtualBox 6.1.34 r150636, Packer 1.7.10 and Vagrant 2.2.19. Not tested on Windows 11 and Linux.
 
-Currently supports Vivado and Petalinux 2017.3 on Ubuntu server 16.04.1 .
+Currently supports
+
+- Vivado and Petalinux 2017.3 on Ubuntu server 16.04.1
+- Vivado and Petalinux 2017.4 on Ubuntu server 16.04.1
+- Vivado and Petalinux 2019.2 on Ubuntu server 18.04.1
+- Vitis, Vivado and Petalinux 2020.2 on Ubuntu server 2020.2
 
 ***There are so many magic numbers and words on the scripts.***
 
@@ -38,7 +43,7 @@ packer build --force -var-file=ubuntu16.04.1.pkrvars.hcl ubuntu16.04.1.pkr.hcl
 Register box file to Vagrant
 
 ```
-vagrant box add --force xenial1-test packer_ubuntu_virtualbox.box
+vagrant box add --force xenial1 packer_ubuntu_virtualbox.box
 ```
 
 This box file also maybe used for Xilinx tools 2017.1, 2017.2 and 2017.4.
@@ -89,5 +94,5 @@ vagrant destroy
 you can remove box file by
 
 ```
-vagrant box remove xenial1-test
+vagrant box remove xenial1
 ```

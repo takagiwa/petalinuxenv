@@ -1,5 +1,5 @@
 # variables
-# xilinxconfigfile (xilinxconfig_2017.3_webpack.txt|xilinxconfig_2017.3_design.txt|xilinxconfig_2017.3_system.txt)
+# xilinxconfigfile (xilinxconfig_2019.2_webpack.txt|xilinxconfig_2019.2_design.txt|xilinxconfig_2019.2_system.txt)
 # desktop environment (none|ubuntu-desktop|xubuntu-desktop)
 # v.cpus
 # v.memory
@@ -13,7 +13,7 @@ $install_script = <<-'SCRIPT'
 
 # TODO: check iso file exist
 sudo mkdir /mnt/dvdiso
-echo '/mnt/iso/ubuntu-16.04.1-server-amd64.iso /mnt/dvdiso iso9660 loop,ro,auto,nofail 0 0' >> /etc/fstab
+echo '/mnt/iso/ubuntu-18.04.1-server-amd64.iso /mnt/dvdiso iso9660 loop,ro,auto,nofail 0 0' >> /etc/fstab
 sudo mount /mnt/dvdiso
 sudo sed -i -e 's/\/media\/cdrom/\/mnt\/dvdiso/g' /etc/apt/apt.conf.d/00CDMountPoint
 sudo apt-cdrom -m -d /mnt/dvdiso add
@@ -28,7 +28,7 @@ if [ -n "$PID" ]; then
   done
 fi
 echo 'install required packages'
-sudo apt install -y python3 tofrodos iproute2 gawk xvfb gcc-4.8 git make net-tools libncurses5-dev tftpd zlib1g-dev:i386 libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib build-essential  libsdl1.2-dev libglib2.0-dev screen pax gzip
+sudo apt install -y tofrodos iproute2 gawk make net-tools libncurses5-dev tftpd zlib1g:i386 libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib build-essential screen pax gzip python2.7
 
 # change shell from dash to bash
 # https://www.nemotos.net/?p=3419
@@ -41,40 +41,40 @@ sudo dpkg-reconfigure --frontend=noninteractive dash
 
 echo 'install Vivado'
 cd /home/vagrant
-tar zvxf /mnt/xilinxinstaller/Xilinx_Vivado_SDK_2017.3_1005_1.tar.gz
-chown -R vagrant:vagrant ./Xilinx_Vivado_SDK_2017.3_1005_1
-cd Xilinx_Vivado_SDK_2017.3_1005_1
+tar zvxf /mnt/xilinxinstaller/Xilinx_Vivado_2019.2_1106_2127.tar.gz
+chown -R vagrant:vagrant ./Xilinx_Vivado_2019.2_1106_2127
+cd Xilinx_Vivado_2019.2_1106_2127
 # choose configuration file
-sudo ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --batch Install --config /mnt/xilinxinstaller/xilinxconfig_2017.3_webpack.txt
+sudo ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --batch Install --config /mnt/xilinxinstaller/xilinxconfig_2019.2_webpack.txt
 cd ..
-rm -rf ./Xilinx_Vivado_SDK_2017.3_1005_1
+rm -rf ./Xilinx_Vivado_2019.2_1106_2127
 
 echo 'install Petalinux'
-mkdir -p /home/vagrant/petalinux/2017.3
+mkdir -p /home/vagrant/petalinux/2019.2
 sudo chown -R vagrant:vagrant /home/vagrant/petalinux
-sudo chmod +x /mnt/xilinxinstaller/petalinux-v2017.3-final-installer.run
+sudo chmod +x /mnt/xilinxinstaller/petalinux-v2019.2-final-installer.run
 # license agreement required
 # Failed to install automatically. Need to install manually.
-yes | sudo -u vagrant /mnt/xilinxinstaller/petalinux-v2017.3-final-installer.run /home/vagrant/petalinux/2017.3 > /dev/null 2>&1
-source /home/vagrant/petalinux/2017.3/settings.sh
+yes | sudo -u vagrant /mnt/xilinxinstaller/petalinux-v2019.2-final-installer.run /home/vagrant/petalinux/2019.2 > /dev/null 2>&1
+source /home/vagrant/petalinux/2019.2/settings.sh
 petalinux-util --webtalk off
 
-echo 'source /opt/Xilinx/Vivado/2017.3/settings64.sh' >> /home/vagrant/.bash_profile
-echo 'source /home/vagrant/petalinux/2017.3/settings.sh' >> /home/vagrant/.bash_profile
+echo 'source /opt/Xilinx/Vivado/2019.2/settings64.sh' >> /home/vagrant/.bash_profile
+echo 'source /home/vagrant/petalinux/2019.2/settings.sh' >> /home/vagrant/.bash_profile
 chown vagrant:vagrant /home/vagrant/.bash_profile
 chmod 644 /home/vagrant/.bash_profile
 
-sudo chown -R vagrant:vagrant /home/vagrant/petalinux
+sudo chown -R vagrant:vagrant /home/vagrant/Xilinx
 
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "xenial1"
-  config.vm.hostname = "xilinx2017.3"
+  config.vm.box = "bionic1"
+  config.vm.hostname = "xilinx2019.2"
   config.vm.boot_timeout = 6000
 
   config.vm.provider "virtualbox" do |v|
-    v.name = "xilinx2017.3"
+    v.name = "xilinx2019.2"
     v.cpus = 4
     # Memory in MB
     v.memory = 8192

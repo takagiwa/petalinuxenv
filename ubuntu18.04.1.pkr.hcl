@@ -38,7 +38,7 @@ variable "ssh_password" {
     default = "vagrant"
 }
 variable "vm_name" {
-    default = "ubuntu18044"
+    default = "ubuntu18041"
 }
 variable "scripts" {
     default = "scripts/setkey.sh"
@@ -114,8 +114,8 @@ build {
     post-processors {  
       post-processor "artifice" {
         files = [
-          "build/packer-virtualbox/ubuntu18044-disk001.vmdk",
-          "build/packer-virtualbox/ubuntu18044.ovf"
+          "build/packer-virtualbox/ubuntu18041-disk001.vmdk",
+          "build/packer-virtualbox/ubuntu18041.ovf"
         ]
       }
       post-processor "vagrant" {
