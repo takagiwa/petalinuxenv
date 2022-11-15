@@ -1,0 +1,7 @@
+vm_name="ubuntu16043"
+iso_url="file://f:/iso/ubuntu-16.04.3-server-amd64.iso"
+iso_checksum="md5:10fcd20619dce11fe094e960c85ba4a9"
+disk_size="300000"
+memory="4096"
+boot_wait="10s"
+ssh_timeout="120m"
