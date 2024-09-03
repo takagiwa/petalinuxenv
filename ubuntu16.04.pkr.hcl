@@ -1,3 +1,5 @@
+# usage: packer build --force -var-file=ubuntu16.04.3.pkrvars.hcl ubuntu16.04.3.pkr.hcl
+
 variable "boot_wait" {
     default = "5s"
 }
@@ -38,24 +40,13 @@ variable "ssh_password" {
     default = "vagrant"
 }
 variable "vm_name" {
-    default = "ubuntu18044"
+    default = "ubuntu2004"
 }
 variable "scripts" {
     default = "scripts/setkey.sh"
 }
-
-variable "preseed" {
-    default = "preseed/url=http://<wait><wait>{{ .HTTPIP }}:{{ .HTTPPort }}<wait><wait>/ubuntu16.04.1.cfg"
-}
-
-variable "boot_command" {
-    default = "autoinstall ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/"
-}
-
-# refer to https://github.com/boxcutter/ubuntu/blob/master/ubuntu.json
-
-variable "boot_command_prefix" {
-    default = "<enter><enter><f6><esc><wait>"
+variable "iso_url_dos" {
+    default = "http://releases.ubuntu.com/20.04/ubuntu-20.04.2-live-server-amd64.iso"
 }
 
 source "virtualbox-iso" "ubuntu" {
@@ -63,18 +54,25 @@ source "virtualbox-iso" "ubuntu" {
     boot_command = [
         "<enter><wait>",
         "<f6><esc>",
-        "<wait><wait>",
-        "<bs><bs><bs><bs>",
-        "<wait><wait>",
-        "<bs><bs><bs><bs><bs><bs>",
-        "<wait><wait>",
-        " auto-install/enable=true",
-        "<wait><wait>",
-        " debconf/priority=critical",
-        "<wait><wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu16.04.1.cfg",
-        "<wait><wait>",
-        "<enter><wait>"
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><wait>",
+        "<bs><bs><bs>",
+        "file=<wait>/cdrom/<wait>preseed/<wait>ubuntu-server.seed <wait><wait>auto-install/<wait>enable=<wait>true <wait><wait>debconf/<wait>priority=<wait>critical <wait><wait>preseed/url=http://<wait><wait>{{ .HTTPIP }}:{{ .HTTPPort }}<wait><wait>/ubuntu1x.cfg <wait><wait>vga=788 <wait><wait>initrd=<wait>/install/initrd.gz ---<wait><enter><wait>"
     ]
 
     boot_wait              = var.boot_wait
@@ -114,8 +112,8 @@ build {
     post-processors {  
       post-processor "artifice" {
         files = [
-          "build/packer-virtualbox/ubuntu18044-disk001.vmdk",
-          "build/packer-virtualbox/ubuntu18044.ovf"
+          "build/packer-virtualbox/${var.vm_name}-disk001.vmdk",
+          "build/packer-virtualbox/${var.vm_name}.ovf"
         ]
       }
       post-processor "vagrant" {
@@ -124,4 +122,3 @@ build {
       }  
     }
 }
-

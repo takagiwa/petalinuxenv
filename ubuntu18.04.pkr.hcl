@@ -45,7 +45,7 @@ variable "scripts" {
 }
 
 variable "preseed" {
-    default = "preseed/url=http://<wait><wait>{{ .HTTPIP }}:{{ .HTTPPort }}<wait><wait>/ubuntu16.04.1.cfg"
+    default = "preseed/url=http://<wait><wait>{{ .HTTPIP }}:{{ .HTTPPort }}<wait><wait>/ubuntu1x.cfg"
 }
 
 variable "boot_command" {
@@ -72,7 +72,7 @@ source "virtualbox-iso" "ubuntu" {
         "<wait><wait>",
         " debconf/priority=critical",
         "<wait><wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu16.04.1.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1x.cfg",
         "<wait><wait>",
         "<enter><wait>"
     ]
@@ -114,8 +114,8 @@ build {
     post-processors {  
       post-processor "artifice" {
         files = [
-          "build/packer-virtualbox/ubuntu18041-disk001.vmdk",
-          "build/packer-virtualbox/ubuntu18041.ovf"
+          "build/packer-virtualbox/${var.vm_name}-disk001.vmdk",
+          "build/packer-virtualbox/${var.vm_name}.ovf"
         ]
       }
       post-processor "vagrant" {

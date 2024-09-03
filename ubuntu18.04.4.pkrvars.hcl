@@ -1,5 +1,5 @@
 vm_name="ubuntu18044"
-iso_url="file://g:/iso/ubuntu-18.04.4-server-amd64.iso"
+iso_url="file://w:/iso/ubuntu-18.04.4-server-amd64.iso"
 iso_checksum="md5:d5bc5c59c24191bb45dd85fc6a420b34"
 disk_size="300000"
 memory="4096"
