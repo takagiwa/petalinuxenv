@@ -1,3 +1,4 @@
 *.box
 /build/
 /packer_cache/
+/bak/

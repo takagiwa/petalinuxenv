@@ -2,6 +2,53 @@
 
 Packer scripts and Vagrant files to make Xilinx Vivado and Petalinux enviroment.
 
+[VirtualBox plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/virtualbox) and [Vagrant plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/vagrant) are needed.
+
+2024 Sep 12
+
+Tested with Windows 11 Pro 23H2 22631.4169, VirtualBox 7.0.18 r162988, Packer 1.11.2 and Vagrant 2.4.1.
+
+Currently supports
+
+- Vivado and Petalinux 2017.1~4 on Ubuntu server 16.04.1
+- Vivado and Petalinux 2018.1~3 on Ubuntu server 16.04.3
+
+You need to download Vivado and Petalinux full installer first.
+
+Edit ubuntu16.04.1.pkrvars.hcl and/or ubuntu16.04.3.pkrvars.hcl for your environment. Mainly "iso_url" path.
+
+run Packer and make box file
+
+```
+packer build --force -var-file=ubuntu16.04.1.pkrvars.hcl ubuntu16.04.pkr.hcl
+```
+
+Register box file to Vagrant
+
+```
+vagrant box add --force xenial1 packer_ubuntu_virtualbox.box
+```
+
+also
+
+```
+packer build --force -var-file=ubuntu16.04.3.pkrvars.hcl ubuntu16.04.pkr.hcl
+vagrant box add --force xenial3 packer_ubuntu_virtualbox.box
+```
+
+copy "peta_install_1.sh" to your work directory.
+Also copy one of the vagrant files (vagrantfile_xilinx201x.y.tpl) as "Vagrantfile".
+
+Edit variables on the Vagrantfile for your environment. Mainly Directory/Folder names and CONFIG_FILENAME.
+
+then run on the work directory.
+
+```
+Vagrant up
+```
+
+---
+
 2022 May 27
 
 Tested with Windows 10 Pro 64bit 21H2 19044.1706, VirtualBox 6.1.34 r150636, Packer 1.7.10 and Vagrant 2.2.19. Not tested on Windows 11 and Linux.

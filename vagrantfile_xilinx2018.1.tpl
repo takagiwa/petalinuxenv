@@ -9,13 +9,13 @@ Vagrant.configure("2") do |config|
   # edit below
 
   # box name
-  config.vm.box = "xenial1"
+  config.vm.box = "xenial3"
   # hostname
-  config.vm.hostname = "xilinx2017-3"
+  config.vm.hostname = "xilinx2018-1"
 
   config.vm.provider "virtualbox" do |v|
     # virtual machine name
-    v.name = "xilinx2017.3"
+    v.name = "xilinx2018.1"
     # number of CPU cores
     v.cpus = 4
     # memory size
@@ -25,15 +25,15 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     env: {
       # ISO image file name
-      "ISO_FILENAME" => "ubuntu-16.04.1-server-amd64.iso",
+      "ISO_FILENAME" => "ubuntu-16.04.3-server-amd64.iso",
       # Vitis/Vivado installer filename (basename = except extention)
-      "VIVADO_FILENAME" => "Xilinx_Vivado_SDK_2017.3_1005_1",
+      "VIVADO_FILENAME" => "Xilinx_Vivado_SDK_2018.1_0405_1",
       # Vitis/Vivado batch install configuration file name
-      "CONFIG_FILENAME" => "xilinxconfig_2017.3_webpack.txt",
+      "CONFIG_FILENAME" => "batch_config/xilinxconfig_2018.1_webpack.txt",
       # Vitis/Vivado/Petalinux version name
-      "VERSION_STR" => "2017.3",
+      "VERSION_STR" => "2018.1",
       # Petalinux installer filename
-      "PETALINUX_FILENAME" => "petalinux-v2017.3-final-installer.run"
+      "PETALINUX_FILENAME" => "petalinux-v2018.1-final-installer.run"
    }, path: "peta_install_1.sh"
 
   config.vm.synced_folder ".\\work", "/home/vagrant/work", create: true, mount_options: ["dmode=755", "fmode=644"]
