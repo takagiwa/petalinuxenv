@@ -4,7 +4,16 @@ Packer scripts and Vagrant files to make Xilinx Vivado and Petalinux enviroment.
 
 [VirtualBox plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/virtualbox) and [Vagrant plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/vagrant) are needed.
 
-2024 Sep 12
+## 2024 Dec 5
+
+Add Vivado and Petalinux 2021.2 on Ubuntu server 18.04.4
+
+You need to copy "vagrantfile_xilinx2021.2.tpl" (as Vagrantfile. also need to be edited for your environment), "peta_install_2.sh" and "peta_expect_2.exp" and run "vagrant up".
+
+2020.1 ~ 2023.2 maybe work but not tested.
+
+
+## 2024 Sep 12
 
 Tested with Windows 11 Pro 23H2 22631.4169, VirtualBox 7.0.18 r162988, Packer 1.11.2 and Vagrant 2.4.1.
 
@@ -49,7 +58,7 @@ Vagrant up
 
 ---
 
-2022 May 27
+## 2022 May 27
 
 Tested with Windows 10 Pro 64bit 21H2 19044.1706, VirtualBox 6.1.34 r150636, Packer 1.7.10 and Vagrant 2.2.19. Not tested on Windows 11 and Linux.
 
