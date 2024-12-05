@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+set executable [lindex $argv 0];
+set install_dir [lindex $argv 1];
+
+set timeout -1
+
+spawn "$executable" --dir "$install_dir"
+expect {
+  -re "Press Enter to display the license agreements" {
+    send -- "\r"
+    exp_continue
+  }
+  -re "Petalinux_EULA.txt" {
+    send -- "q\r"
+    exp_continue
+  }
+  -re "Do you accept Xilinx End User License Agreement?" {
+    send -- "y\r"
+    exp_continue
+  }
+  -re "Third_Party_Software_End_User_License_Agreement.txt" {
+    send -- "q\r"
+    exp_continue
+  }
+  -re "Do you accept Third Party End User License Agreement?" {
+    send -- "y\r"
+    exp_continue
+  }
+  eof
+}
+exit
+
