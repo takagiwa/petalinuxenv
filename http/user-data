@@ -1,0 +1,46 @@
+#cloud-config
+autoinstall:
+    version: 1
+    early-commands:
+        # Stop ssh for packer
+        - 'sudo systemctl stop ssh'
+        # Run manually if security update seems freezing (second console by pressing Alt+F2)
+        - 'sudo ip l set enp0s3 down'
+    locale: en_US.UTF-8
+    keyboard:
+        layout: jp
+        variant: ''
+    # general packages needed for machines - referenced from https://tekanaid.com/posts/hashicorp-packer-build-ubuntu20-04-vmware
+    #packages: [open-vm-tools, openssh-server, net-tools, perl, curl, ifupdown, zip, unzip, gnupg2, software-properties-common, apt-transport-https, ca-certificates, lsb-release]
+    # network setup - referenced from https://tekanaid.com/posts/hashicorp-packer-build-ubuntu20-04-vmware
+    network:
+       network:
+          version: 2
+          ethernets:
+              enp0s3:
+                  dhcp4: true
+    identity:
+        hostname: ubuntu-server
+        username: vagrant
+        password: '$6$.hBDrt9k4Y7rhF/s$CQM.R5O9VQOUeGFHHn7IXG5tOuFVP5aqkgwIJihxGvWYg3UBBMsp919rAEjaIQAcgQKzm7SwG4cr4kGbdOcN4/'
+    ssh:
+        install-server: yes
+        allow-pw: yes
+    storage:
+        layout:
+            name: lvm
+    apt:
+        primary:
+            - arches: [i386, amd64]
+              uri: "http://jp.archive.ubuntu.com/ubuntu/"
+    user-data:
+      disable_root: false
+    late-commands:
+      - 'sed -i -e "s/^#\?PermitRootLogin.*/PermitRootLogin yes/g" /target/etc/ssh/sshd_config'
+    #  - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+      - 'echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /target/etc/sudoers.d/vagrant'
+      - 'chmod 440 /target/etc/sudoers.d/vagrant'
+    #  - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/ubuntu
+    #  - curtin in-target --target=/target -- apt-get update
+    #  - curtin in-target --target=/target -- apt-get upgrade --yes
+    updates: security

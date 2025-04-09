@@ -1,0 +1,8 @@
+vm_name="ubuntu20044"
+iso_url="file://w:/iso/ubuntu-20.04.4-live-server-amd64.iso"
+iso_checksum="md5:bf83ce95c8c002669f3a78d34422d08e"
+disk_size="800000"
+memory="8192"
+cpus="4"
+boot_wait="5s"
+ssh_timeout="120m"

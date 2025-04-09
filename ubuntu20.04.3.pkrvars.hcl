@@ -1,0 +1,8 @@
+vm_name="ubuntu20043"
+iso_url="file://w:/iso/ubuntu-20.04.3-live-server-amd64.iso"
+iso_checksum="md5:8df52f27204c37a50a169989fb019188"
+disk_size="800000"
+memory="8192"
+cpus="4"
+boot_wait="5s"
+ssh_timeout="120m"
