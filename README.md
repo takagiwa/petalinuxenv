@@ -4,7 +4,23 @@ Packer scripts and Vagrant files to make Xilinx Vivado and Petalinux enviroment.
 
 [VirtualBox plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/virtualbox) and [Vagrant plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/vagrant) are needed.
 
-First, create Vagrant boxes as below.
+You need
+* HashiCorp Packer
+* HashiCorp Vagrant
+* Ubuntu ISO files
+* Vivado or Vitis full install images
+* Petalinux install files
+* Vivado or Vitis install configuration files
+* SSH terminal software (e.g. TeraTerm)
+* X server (e.g. Xming, MobaXterm, VcXsrv)
+
+You can make install configuration file
+
+```
+xsetup -b ConfigGen
+```
+
+Create Vagrant boxes as below.
 
 ```
 packer build --force -var-file=<Variables file> <Packer script>
@@ -55,7 +71,17 @@ Next, copy the script for the Petalinux version you want to run into a working d
 | 2025.1            | - | - | - |
 | 2025.2            | - | - | - |
 
-Edit *.tpl file and rename *.tpl file to "Vagrantfile". Then run
+Edit *.tpl file and rename *.tpl file to "Vagrantfile". Also edit Vivado or Vitis install configuration file. Then run
+
+* config.vm.hostname : VM hostname
+* v.name : VirtualBox VM name
+* v.cpus : number of CPUs
+* v.memory : Assign memory
+* config.vm.synced_folder ".\\work" : shared directory
+* config.vm.synced_folder "W:\\XilinxInstaller" : where Xilinx file installed in host
+* config.vm.synced_folder "W:\\iso" : where Ubuntu ISO placed
+* "CONFIG_FILENAME" : Vivado or Vitis install configuration file path
+
 
 ```
 vagrant up
