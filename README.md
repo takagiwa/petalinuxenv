@@ -71,7 +71,7 @@ Next, copy the script for the Petalinux version you want to run into a working d
 | 2025.1            | - | - | - |
 | 2025.2            | - | - | - |
 
-Edit *.tpl file and rename *.tpl file to "Vagrantfile". Also edit Vivado or Vitis install configuration file. Then run
+Edit *.tpl file and rename *.tpl file to "Vagrantfile". Also edit Vivado or Vitis install configuration file.
 
 * config.vm.hostname : VM hostname
 * v.name : VirtualBox VM name
@@ -82,6 +82,7 @@ Edit *.tpl file and rename *.tpl file to "Vagrantfile". Also edit Vivado or Viti
 * config.vm.synced_folder "W:\\iso" : where Ubuntu ISO placed
 * "CONFIG_FILENAME" : Vivado or Vitis install configuration file path
 
+Then run
 
 ```
 vagrant up
