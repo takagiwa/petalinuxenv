@@ -72,6 +72,11 @@ echo 'install required packages'
 sudo /bin/sed -i 's/http:/https:/g' /etc/apt/sources.list
 sudo apt update
 sudo apt install -y python3 tofrodos iproute2 gawk xvfb gcc-4.8 git make net-tools libncurses5-dev tftpd zlib1g-dev:i386 libssl-dev flex bison libselinux1 gnupg wget diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib build-essential  libsdl1.2-dev libglib2.0-dev screen pax gzip libgtk2.0-0
+sudo apt install -y libswt-gtk-4-jni
+sudo apt install -y libsecret-1-0
+sudo apt install -y graphviz
+sudo apt install -y zip
+sudo apt install -y dbus-x11
 
 echo 'install expect'
 

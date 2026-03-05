@@ -23,6 +23,9 @@ Vagrant.configure("2") do |config|
     v.memory = 8192
   end
 
+  # enable this line if you want to add bridged network
+  #config.vm.network "public_network", bridge: "Realtek Gaming 2.5GbE Family Controller #2"
+
   # https://pcvogel.sarakura.net/2023/02/23/38020
   # $ sudo XAUTHORITY=${HOME}/.Xauthority su
   config.ssh.forward_x11 = true
