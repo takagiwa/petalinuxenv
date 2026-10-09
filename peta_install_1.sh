@@ -9,27 +9,27 @@
 # File and directory check
 #
 if [ ! -d "/mnt/xilinxinstaller" ];then
-  echo "INSTALLER_DIR not exists."
+  echo "[ERROR] INSTALLER_DIR not exists."
   exit 1
 fi
 if [ ! -d "/mnt/iso" ];then
-  echo "ISO_DIR not exists."
+  echo "[ERROR] ISO_DIR not exists."
   exit 1
 fi
 if [ ! -e "/mnt/iso/$ISO_FILENAME" ];then
-  echo "ISO_FILE not exists."
+  echo "[ERROR] ISO_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$VIVADO_FILENAME.tar.gz" ];then
-  echo "VIVADO_FILE not exists."
+  echo "[ERROR] VIVADO_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$CONFIG_FILENAME" ];then
-  echo "CONFIG_FILE not exists."
+  echo "[ERROR] CONFIG_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$PETALINUX_FILENAME" ]; then
-  echo "PETALINUX_FILE not exists."
+  echo "[ERROR] PETALINUX_FILE not exists."
   exit 1
 fi
 
@@ -44,8 +44,8 @@ sudo apt-cdrom -m -d /mnt/dvdiso add
 
 # https://unix.stackexchange.com/questions/315502/how-to-disable-apt-daily-service-on-ubuntu-cloud-vm-image
 echo 'stop apt.systemd.daily'
-systemctl stop apt-daily.service
-systemctl kill --kill-who=all apt-daily.service
+sudo systemctl stop apt-daily.service
+sudo systemctl kill --kill-who=all apt-daily.service
 
 # wait until `apt-get updated` has been killed
 while ! (systemctl list-units --all apt-daily.service | egrep -q '(dead|failed)')
@@ -53,7 +53,7 @@ do
   sleep 1;
 done
 
-apt-get -o Acquire::http::AllowRedirect=false update
+sudo apt-get -o Acquire::http::AllowRedirect=false update
 
 echo 'waiting for apt.systemd.daily'
 #wait `pgrep apt.systemd.dai`
@@ -71,6 +71,8 @@ sudo apt install -y libswt-gtk-4-jni
 sudo apt install -y libsecret-1-0
 sudo apt install -y graphviz
 sudo apt install -y zip
+# avoid stuck at 'Generating installed device list'
+sudo apt install -y libncurses5 libtinfo5
 
 #
 # change shell from dash to bash
@@ -95,6 +97,15 @@ sudo ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --batch Install --con
 cd ..
 rm -rf ./$VIVADO_FILENAME
 
+if [ -d "/opt/Xilinx" ];then
+  echo "source /opt/Xilinx/Vivado/$VERSION_STR/settings64.sh" >> /home/vagrant/.bash_profile
+elif [ -d "/tools/Xilinx" ];then
+  echo "source /tools/Xilinx/Vivado/$VERSION_STR/settings64.sh" >> /home/vagrant/.bash_profile
+fi
+
+chown vagrant:vagrant /home/vagrant/.bash_profile
+chmod 644 /home/vagrant/.bash_profile
+
 echo 'install Petalinux'
 mkdir -p /home/vagrant/petalinux/$VERSION_STR
 sudo chown -R vagrant:vagrant /home/vagrant/petalinux
@@ -105,13 +116,6 @@ yes | sudo -u vagrant /mnt/xilinxinstaller/$PETALINUX_FILENAME /home/vagrant/pet
 source /home/vagrant/petalinux/$VERSION_STR/settings.sh
 petalinux-util --webtalk off
 
-if [ -d "/opt/Xilinx" ];then
-  echo "source /opt/Xilinx/Vivado/$VERSION_STR/settings64.sh" >> /home/vagrant/.bash_profile
-elif [ -d "/tools/Xilinx" ];then
-  echo "source /tools/Xilinx/Vivado/$VERSION_STR/settings64.sh" >> /home/vagrant/.bash_profile
-fi
 echo "source /home/vagrant/petalinux/$VERSION_STR/settings.sh" >> /home/vagrant/.bash_profile
-chown vagrant:vagrant /home/vagrant/.bash_profile
-chmod 644 /home/vagrant/.bash_profile
 
 sudo chown -R vagrant:vagrant /home/vagrant/petalinux

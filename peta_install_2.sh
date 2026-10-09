@@ -9,31 +9,31 @@
 # File and directory check
 #
 if [ ! -d "/mnt/xilinxinstaller" ];then
-  echo "INSTALLER_DIR not exists."
+  echo "[ERROR] INSTALLER_DIR not exists."
   exit 1
 fi
 if [ ! -d "/mnt/iso" ];then
-  echo "ISO_DIR not exists."
+  echo "[ERROR] ISO_DIR not exists."
   exit 1
 fi
 if [ ! -e "/mnt/iso/$ISO_FILENAME" ];then
-  echo "ISO_FILE not exists."
+  echo "[ERROR] ISO_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$VIVADO_FILENAME.tar.gz" ];then
-  echo "VIVADO_FILE not exists."
+  echo "[ERROR] VIVADO_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$CONFIG_FILENAME" ];then
-  echo "CONFIG_FILE not exists."
+  echo "[ERROR] CONFIG_FILE not exists."
   exit 1
 fi
 if [ ! -e "/mnt/xilinxinstaller/$PETALINUX_FILENAME" ]; then
-  echo "PETALINUX_FILE not exists."
+  echo "[ERROR] PETALINUX_FILE not exists."
   exit 1
 fi
 if [ ! -e "/home/vagrant/peta_expect_2.exp" ]; then
-  echo "expect file not exists."
+  echo "[ERROR] expect file not exists."
   exit 1
 fi
 
@@ -48,8 +48,8 @@ sudo apt-cdrom -m -d /mnt/dvdiso add
 
 # https://unix.stackexchange.com/questions/315502/how-to-disable-apt-daily-service-on-ubuntu-cloud-vm-image
 echo 'stop apt.systemd.daily'
-systemctl stop apt-daily.service
-systemctl kill --kill-who=all apt-daily.service
+sudo systemctl stop apt-daily.service
+sudo systemctl kill --kill-who=all apt-daily.service
 
 # wait until `apt-get updated` has been killed
 while ! (systemctl list-units --all apt-daily.service | egrep -q '(dead|failed)')
@@ -57,7 +57,7 @@ do
   sleep 1;
 done
 
-apt-get -o Acquire::http::AllowRedirect=false update
+sudo apt-get -o Acquire::http::AllowRedirect=false update
 
 echo 'waiting for apt.systemd.daily'
 #wait `pgrep apt.systemd.dai`
@@ -77,6 +77,8 @@ sudo apt install -y libsecret-1-0
 sudo apt install -y graphviz
 sudo apt install -y zip
 sudo apt install -y dbus-x11
+# avoid stuck at 'Generating installed device list'
+sudo apt install -y libncurses5 libtinfo5
 
 echo 'install expect'
 
@@ -108,7 +110,6 @@ tar zvxf /mnt/xilinxinstaller/$VIVADO_FILENAME.tar.gz
 chown -R vagrant:vagrant ./$VIVADO_FILENAME
 cd $VIVADO_FILENAME
 # choose configuration file
-# ",WebTalkTerms" removed
 sudo ./xsetup --agree XilinxEULA,3rdPartyEULA --batch Install --config /mnt/xilinxinstaller/$CONFIG_FILENAME
 cd ..
 rm -rf ./$VIVADO_FILENAME
@@ -132,10 +133,8 @@ mkdir -p /home/vagrant/petalinux/$VERSION_STR
 sudo chown -R vagrant:vagrant /home/vagrant/petalinux
 sudo chmod +x /mnt/xilinxinstaller/$PETALINUX_FILENAME
 # license agreement required
-#sudo -u vagrant /mnt/xilinxinstaller/$PETALINUX_FILENAME --dir /home/vagrant/petalinux/$VERSION_STR > /dev/null 2>&1
 sudo -u vagrant /usr/bin/expect -f /home/vagrant/peta_expect_2.exp /mnt/xilinxinstaller/$PETALINUX_FILENAME /home/vagrant/petalinux/$VERSION_STR
 source /home/vagrant/petalinux/$VERSION_STR/settings.sh
-#petalinux-util --webtalk off
 
 echo "source /home/vagrant/petalinux/$VERSION_STR/settings.sh" >> /home/vagrant/.bash_profile
 

@@ -1,0 +1,8 @@
+vm_name="ubuntu22043"
+iso_url="file://w:/iso/ubuntu-22.04.3-live-server-amd64.iso"
+iso_checksum="md5:2072007c1d5b504c9a4858240e28e669"
+disk_size="800000"
+memory="8192"
+cpus="4"
+boot_wait="5s"
+ssh_timeout="120m"

@@ -37,6 +37,7 @@ Vriables file, Packer script, Box name are below.
 | 18.04.4 | bionic4 | ubuntu18.04.pkr.hcl | ubuntu18.04.4.pkrvars.hcl |
 | 20.04.3 | focal3  | ubuntu20.04.pkr.hcl | ubuntu20.04.3.pkrvars.hcl |
 | 20.04.4 | focal4  | ubuntu20.04.pkr.hcl | ubuntu20.04.4.pkrvars.hcl |
+| 22.04.3 | jammy3  | ubuntu22.04.pkr.hcl | ubuntu22.04.3.pkrvars.hcl |
 
 Next, copy the script for the Petalinux version you want to run into a working directory of your choice.
 
@@ -65,11 +66,16 @@ Next, copy the script for the Petalinux version you want to run into a working d
 | 2022.1            | 18.04.4 | bionic4 | vagrantfile_xilinx2022.1.tpl, peta_install_2.sh, peta_expect_2.exp |
 | 2022.2            | 18.04.4 | bionic4 | vagrantfile_xilinx2022.2.tpl, peta_install_2.sh, peta_expect_2.exp |
 | 2023.1            | - | - | - |
-| 2023.2            | - | - | - |
+| 2023.2            | 20.04.4 | focal4 | vagrantfile_xilinx2023.2.tpl, peta_install_3.sh, peta_expect_3.exp |
 | 2024.1            | 20.04.4 | focal4 | vagrantfile_xilinx2024.1.tpl, peta_install_3.sh, peta_expect_3.exp |
 | 2024.2            | - | - | - |
+| 2024.2.2          | - | - | - |
 | 2025.1            | - | - | - |
+| 2025.1.1          | - | - | - |
 | 2025.2            | - | - | - |
+| 2025.2.1          | 22.04.3 | jammy3 | vagrantfile_xilinx2025.2.1.tpl, peta_install_4.sh, peta_expect_3.exp |
+| 2026.1            | - | - | - |
+| 2026.1.1          | - | - | - |
 
 Edit *.tpl file and rename *.tpl file to "Vagrantfile". Also edit Vivado or Vitis install configuration file.
 
